@@ -3,7 +3,19 @@ import multer from "multer";
 import crypto from "crypto";
 import fs from "fs";
 import path from "path";
-import { CONFIG } from "./config/env.mjs";
+import path from "path";
+import { fileURLToPath } from "url";
+import fs from "fs";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const CONFIG = JSON.parse(
+  fs.readFileSync(path.join(__dirname, "config/env.mjs"), "utf8")
+    .replace("export const CONFIG =", "")
+    .trim()
+    .replace(/;$/, "")
+);
 
 const app = express();
 const upload = multer({ dest: "uploads/" });
